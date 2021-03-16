@@ -3,7 +3,6 @@ const EventEmitter = require('events').EventEmitter;
 /**
  * A class handling a websocket connection i compliance with rfc6455.
  * Created by Endré Hadzalic.
- * //TODO: fix problem with error on client disconnect.
  */
 class WebSocket extends EventEmitter {
 
@@ -49,6 +48,9 @@ class WebSocket extends EventEmitter {
             connection.on('end', () => {
                 if (this.#debug)
                     console.log("Client disconnected");
+            });
+            connection.on('error', (error) => {
+                console.log("Client disconnected abruptly");
             });
         });
         this.#wsServer.on('error', (error) => {
